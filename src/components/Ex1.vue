@@ -2,12 +2,40 @@
     export default { 
         // Add Code Here to complete the task
         // Note: DO NOT USE "eval()". In security, "eval" is considered "evil"!!!
+        data() {
+            return {
+                x:0,
+                y:0,
+                operators : ['+', '-', '*', '/','%'],
+                selOp:''
+            }
+        },
+        computed: {
+            result(){
+                if (this.selOp==='+'){
+                    return this.x + this.y
+                }
+                if(this.selOp==='-'){
+                    return this.x - this.y;
+                }
+                if(this.selOp==='*'){
+                    return this.x * this.y;
+                }
+                if(this.selOp==='/'){
+                    return this.x / this.y;
+                }
+                if(this.selOp==='%'){
+                    return this.x % this.y;
+                }
+            }
+
+        }
     }
 </script>
 
 <template>
     <p>x <input v-model.number="x"></p>
-    <select v-model="selectedOp">
+    <select v-model="selOp">
         <option v-for="op in operators" >{{ op }}</option>
     </select>
     <p>y <input v-model.number="y"></p>
