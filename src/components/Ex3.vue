@@ -7,11 +7,24 @@
             selMood:'',
             moods:['happy','sad','angry'],
             subject:'',
-            entry:''
+            entry:'',
+            outputMsg:'',
+            posts:[]
 
         }
             
        },
+
+       created(){
+            axios.get('http://localhost/WAD2/REST/blog/getPosts.php')
+            .then(response => {
+                this.posts = response.data
+            })
+            .catch(error => {
+                this.posts = [{entry:'There was an error: ' + error.message}]
+            })
+        },
+
        computed: {
             baseUrl() {
                 if (window.location.hostname=='localhost')
@@ -40,7 +53,7 @@
                  */
             }
         }
-
+        
     }
 </script>
 
@@ -58,7 +71,7 @@
         Mood:
         <!-- TODO: Build a dropdown list here for selecting the mood -->
          <select v-model="selMood">
-            <option v-for="mood in moods">
+            <option v-for="mood in moods" :value="mood">
                 {{ mood }}
             </option>
          </select>

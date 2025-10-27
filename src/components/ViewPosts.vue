@@ -61,7 +61,7 @@ export default {
                     <td>{{ post.id }}</td>
                     <td>{{ post.entry }}</td>
                     <td>{{ post.mood }}</td>
-                    <td><button>Edit</button></td>
+                    <td><button @click="showEditPost=true">Edit</button></td>
                 </tr>
             </tbody>
 
