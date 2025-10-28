@@ -36,10 +36,10 @@ export default {
     },
     methods: {
         editPost(id) {
-            let post = this.posts.find(post => post.id == id)
+            const post = this.posts.find(post => post.id === id)
             if (post) {
                 this.entry = post.entry;
-                this.mood = post.mood;
+                this.mood = (post.mood || '').toString().toLowerCase();
                 this.showEditPost = true;
                 this.editPostId = id;
 
@@ -60,7 +60,6 @@ export default {
                 let updatedPost = this.posts.find(post => post.id === this.editPostId)
                 updatedPost.entry=this.entry
                 updatedPost.mood=this.mood
-
                 this.showEditPost=false
                 this.entry=''
                 this.mood=''
@@ -101,7 +100,7 @@ export default {
         <div id="editPost" v-if="showEditPost">
             <h3>Edit Post</h3>
             <div id="postContent" class="mx-3">
-                <form>
+                <form @submit.prevent="updatePost">
                     <div class="mb-3">
                         <label for="entry" class="form-label">Entry</label>
                         <textarea id="entry" class="form-control" v-model="entry" required></textarea>
@@ -110,7 +109,7 @@ export default {
                         <label for="mood" class="form-label">Mood</label>
                         <select id="mood" class="form-select" v-model="mood" required>
                             <option value="" disabled>Select Mood</option>
-                            <option v-for="mood in moods" :value="mood">{{ mood }}</option>
+                            <option v-for="mood in moods" :value="mood.toLowerCase()">{{ mood }}</option>
                         </select>
                     </div>
                     <button type="submit" class="btn btn-primary" @click="updatePost">Update Post</button>
