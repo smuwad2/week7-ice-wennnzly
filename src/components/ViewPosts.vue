@@ -47,6 +47,7 @@ export default {
                     this.entry = post.entry;
                     this.mood = post.mood;
                     this.editPostId = id; // Store the ID for updating later
+                    this.showEditPost = true
                 }
             })
 
@@ -101,7 +102,7 @@ export default {
                     <td>{{ post.id }}</td>
                     <td>{{ post.entry }}</td>
                     <td>{{ post.mood }}</td>
-                    <td><button @click="showEditPost=true; editPost(post.id)">Edit</button></td>
+                    <td><button @click="editPost(post.id)">Edit</button></td>
                 </tr>
             </tbody>
 
