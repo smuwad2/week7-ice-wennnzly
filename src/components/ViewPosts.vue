@@ -36,16 +36,18 @@ export default {
     },
     methods: {
         editPost(id) {
-            let postToBeEdited = this.posts.find(post => post.id == id)
-            if (postToBeEdited) {
-                this.entry = postToBeEdited.entry;
-                this.mood = postToBeEdited.mood;
+            let post = this.posts.find(post => post.id == id)
+            if (post) {
+                this.entry = post.entry;
+                this.mood = post.mood;
                 this.showEditPost = true;
                 this.editPostId = id;
+
+
             }
         },
-        updatePost(event) {
-            event.preventDefault(); // Prevent form submission
+        updatePost() {
+            // event.preventDefault(); // Prevent form submission
             const update = {
                 mood : this.mood,
                 entry : this.entry
