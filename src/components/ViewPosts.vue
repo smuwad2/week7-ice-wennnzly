@@ -46,8 +46,8 @@ export default {
                     // Bind the values to the form fields
                     this.entry = post.entry;
                     this.mood = post.mood;
-                    this.editPostId = id; // Store the ID for updating later
                     this.showEditPost = true
+                    this.editPostId = id; // Store the ID for updating later
                 }
             })
 
