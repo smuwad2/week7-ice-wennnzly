@@ -36,25 +36,13 @@ export default {
     },
     methods: {
         editPost(id) {
-            axios.get(`${this.baseUrl}/posts`)
-            .then(response => {
-                this.posts = response.data
-                // Find the post directly from existing posts array
-                const post = this.posts.find(post => post.id === id);
-                
-                if (post) {
-                    // Bind the values to the form fields
-                    this.entry = post.entry;
-                    this.mood = post.mood;
-                    this.showEditPost = true
-                    this.editPostId = id; // Store the ID for updating later
-                }
-            })
-
-            .catch(error => {
-                this.posts = [{ entry: 'There was an error: ' + error.message }]
-            })
-            
+            let postToBeEdited = this.posts.find(post => post.id == id)
+            if (postToBeEdited) {
+                this.entry = postToBeEdited.entry;
+                this.mood = postToBeEdited.mood;
+                this.showEditPost = true;
+                this.editPostId = id;
+            }
         },
         updatePost(event) {
             event.preventDefault(); // Prevent form submission
