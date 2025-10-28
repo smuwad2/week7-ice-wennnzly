@@ -36,9 +36,49 @@ export default {
     },
     methods: {
         editPost(id) {
+            axios.get(`${this.baseUrl}/posts`)
+            .then(response => {
+                this.posts = response.data
+                // Find the post directly from existing posts array
+                const post = this.posts.find(post => post.id === id);
+                
+                if (post) {
+                    // Bind the values to the form fields
+                    this.entry = post.entry;
+                    this.mood = post.mood;
+                    this.editPostId = id; // Store the ID for updating later
+                }
+            })
+
+            .catch(error => {
+                this.posts = [{ entry: 'There was an error: ' + error.message }]
+            })
             
         },
         updatePost(event) {
+            event.preventDefault(); // Prevent form submission
+            const update = {
+                mood : this.mood,
+                entry : this.entry
+            };
+
+            axios.post(`${this.baseUrl}/updatePost?id=${this.editPostId}`, update)
+            .then(response => {
+                console.log("Post updated successfully!");
+
+                let updatedPost = this.posts.find(post => post.id === this.editPostId)
+                updatedPost.entry=this.entry
+                updatedPost.mood=this.mood
+
+                this.showEditPost=false
+                this.entry=''
+                this.mood=''
+            })
+
+            .catch(error => {
+                this.posts = [{ entry: 'There was an error: ' + error.message }]
+            })
+
             
         }
     }
@@ -61,7 +101,7 @@ export default {
                     <td>{{ post.id }}</td>
                     <td>{{ post.entry }}</td>
                     <td>{{ post.mood }}</td>
-                    <td><button @click="showEditPost=true">Edit</button></td>
+                    <td><button @click="showEditPost=true; editPost(post.id)">Edit</button></td>
                 </tr>
             </tbody>
 
@@ -82,7 +122,7 @@ export default {
                             <option v-for="mood in moods" :value="mood">{{ mood }}</option>
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-primary">Update Post</button>
+                    <button type="submit" class="btn btn-primary" @click="updatePost">Update Post</button>
                 </form>
             </div>
         </div>
